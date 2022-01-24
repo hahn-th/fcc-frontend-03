@@ -1,25 +1,44 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import DrumPad from './components/drumpad';
+import bank from './constants'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  render() {
+
+    const pads = [];
+
+    for(let i=0;i<3;i++) {
+      pads.push(<div className="row">
+                    { bank.slice(i*3,i*3+3).map(
+                        item =>
+                          <div className='col'>
+                            <DrumPad keyTrigger={item.keyTrigger} 
+                                    id={item.id}
+                                    url={item.url}
+                                    src={item.src} />
+                          </div> 
+                      )} 
+                  </div>);
+    }
+
+    return (
+      <div className="App">
+        <div id="drum-machine" className="container">
+          <div className='row'>
+            <div className='col-md-6'>
+              {pads}
+            </div>
+            <div className='col-md-6'>
+              Preview
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
